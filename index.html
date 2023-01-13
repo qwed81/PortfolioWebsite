@@ -1,19 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="font-size: 20px">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<link rel="stylesheet" href="./index.css">
+	<!--link rel="stylesheet" href="./index.css" -->
     <title>About Me</title>
   </head>
   <body>
-	<div class="header">
-		<h1 class="title">About Me</h1>
-		<nav class="nav">
-			<a href="#">Website Source</a>
-			<a href="https://github.com/qwed81?tab=repositories">Github</a>
-			<a href="https://www.linkedin.com/in/joshua-cox-18834b244">LinkedIn</a>
+	<div>
+		<h1 style="display: inline">About Me</h1>
+		<nav style="display: flex; float: right;">
+			<style>
+				a.social-link {
+					margin: 0.5rem;
+				}
+			</style>
+			<a class="social-link" href="#">Website Source</a>
+			<a class="social-link" href="https://github.com/qwed81?tab=repositories">Github</a>
+			<a class="social-link" href="https://www.linkedin.com/in/joshua-cox-18834b244">LinkedIn</a>
 		</nav>
 	</div>
     <main>
@@ -94,7 +99,7 @@
 			consistently. Tmux, Vim, and even my window manager all had a modification key plus u, i, o, p, [, and ] as the way
 			to switch was was on the screen. Which combined very well for an experience that was not only uniform across applications,
 			but felt natural to use. The problem? Firefox has no setting for changing keybindings, and extensions that exist only work
-			while a webpage is loaded. After months of 1 application spitting on my entire keyboard focused workflow, I knew it had to change.
+			while a webpage is loaded. After months of one application disrespecting my entirely keyboard focused workflow, I knew it had to change.
 			But what if there are applications in the future that have the same problem? I needed to go deeper and fix the root of the problem,
 			not just firefox. Creating an application to sit between the window manager and the application. A task not trivial with my setup.
 			Instead of changing the code for my window manager putting the burdon of maintinace of my fork on me, I decided to make a stand alone
