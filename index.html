@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="./index.css">
+    <title>About Me</title>
+  </head>
+  <body>
+	<div class="header">
+		<h1 class="title">About Me</h1>
+		<nav class="nav">
+			<a href="#">Website Source</a>
+			<a href="https://github.com/qwed81?tab=repositories">Github</a>
+			<a href="https://www.linkedin.com/in/joshua-cox-18834b244">LinkedIn</a>
+		</nav>
+	</div>
+    <main>
+		<h2>Skills</h2>
+		<p>
+			My name is Joshua Cox and I am currently studying computer science at
+			<a href="https://www.utdallas.edu/">The University of Texas at Dallas</a>.
+			Additionally I am self studying technologies ranging from Web Development to Operating Systems
+			and Compilers. I also work on and lead development of a startup, <a href="https://edworldo.com">EdWorldo</a>.
+			Some of my skills built up over years 6 of programming include: 
+			<ul>
+				<li>
+					Programming Languages
+					<ol>
+						<li>Rust</li>
+						<li>TypeScript / JavaScript</li>
+						<li>Scss / Css</li>
+						<li>Html</li>
+						<li>C#</li>
+						<li>Java</li>
+						<li>C (and limited C++)</li>
+					</ol>
+				</li>
+				<li>Data Structures and Algorithms</li>
+				<li>Sql and NoSql Databases</li>
+				<li>Operating Systems</li>
+				<li>Front End Web Development</li>
+					<ul>
+						<li>Vanilla Html / Css / Javascript</li>
+						<li>React</li>
+					</ul>
+				<li>
+					Back End Web Development
+					<ul>
+						<li>Asp.Net core Web Api</li>
+						<li>Asp.Net core MVC</li>
+						<li>Express</li>
+						<li>Cloud Deployment (with AWS)</li>
+						<li>Consuming 0Auth2 Apis</li>
+					</ul>
+				</li>
+				<li>
+					Programming Patterns
+					<ul>
+						<li>Object Oriented</li>
+						<li>Solid Priciples</li>
+						<li>Dependency Injection</li>
+						<li>RAII</li>
+						<li>Test Driven Development</li>
+						<li>Unit and Integration Testing</li>
+					</ul>
+				</li>
+				<li>Git and source control</li>
+			</ul>
+		<p>
+		<h2>Industry Experience</h2>
+		<h3><a href="https://edworldo.com">EdWorldo</a></h3>
+		<p>
+			In June of 2021, my friend came to me with the idea of a new way of using the internet. A very bold claim, and one that 
+			is hard to market, but that doesn't mean there is no potential in the idea. Pivoting to a tool for educators to use, we
+			spent months grinding away with makeshift solutions trying to get a MVP created. It did it's job but it was not production
+			ready. We decided to start over from scratch and create the application with react/typescript and Asp.Net core. Starting
+			from scratch forced me to learn about the best practices in web development from online forms. Recently I have been practiceing
+			communication and leadership as we have multiple people working for/with us to develop the application
+		</p>
+
+		<h2>Projects</h2>
+		<p>
+			I have always enjoyed programming, however in prior years my ambition to create something huge was gated
+			by my inability to judge both the size of the project as well as my own skill level. However, recently
+			I have got to the point where I can handle projects of larger size. The first step was to fix things that had
+			been bothering me for months. 
+		</p>
+		<h3><a href="https://github.com/qwed81/x11-key-remapper">X11 key remapper</a></h3>
+		<p>
+			After trying out Vim with Linux and i3, I fell in love with how customizable my setup was. The UX was completely
+			up to me, which naturally after experimenting I found the perfect keybindings for all applications I was using
+			consistently. Tmux, Vim, and even my window manager all had a modification key plus u, i, o, p, [, and ] as the way
+			to switch was was on the screen. Which combined very well for an experience that was not only uniform across applications,
+			but felt natural to use. The problem? Firefox has no setting for changing keybindings, and extensions that exist only work
+			while a webpage is loaded. After months of 1 application spitting on my entire keyboard focused workflow, I knew it had to change.
+			But what if there are applications in the future that have the same problem? I needed to go deeper and fix the root of the problem,
+			not just firefox. Creating an application to sit between the window manager and the application. A task not trivial with my setup.
+			Instead of changing the code for my window manager putting the burdon of maintinace of my fork on me, I decided to make a stand alone
+			application with Rust. This way I could call the direct C libraries provided by X11, as well have have the high level syntax and
+			memory saftey. While it seems like a small problem, the solution ended being very hacky as there is no easy way to do what I am trying
+			to do without proxying the entire keyboard. After spending around 40 hours hacking away, I created a working application
+			daily.
+		</p>
+		<h3><a href="https://github.com/qwed81/browser-boost">Browser Boost</a></h3>
+		<p>
+			After fixing my Firefox problem my setup was almost perfect, however there was one last hold out. None other than my best
+			friend Google. Every time I made a search my process was the same.
+			<ol>
+				<li>Mod + i opened my browser workspace</li>
+				<li>Ctrl + t opened a new tab and focued the search bar</li>
+				<li>Type in the search and press enter</li>
+				<li>Move the mouse and click on the first result</li>
+			</ol>
+			Normally not a big deal, but when touching the mouse is not common, it became super noticable. I was wasting minutes a day
+			just cliking on the first result. In the same spirit as the key remapper, a general solution is prefered. I created a new
+			project called Browser Boost, a Firefox extension available on the mozilla store. It's purpose? Allow me to create scripts
+			for commonly used websites. Right now the only one I have created a script for is google, but as I find myself frequenting other
+			sites I will add them. J and K to move up and down in results in the spirit of Vim, and "Space" to click on the highlighted link.
+			Very simple but very effective, the best kind of application. Finally, the limiting factor is the latency between me and the
+			Google servers.
+		</p>
+		<h3><a href="https://github.com/qwed81/typing-test-generator">Typing Test Generator</a></h3>
+		<p>
+			Learning how to touch type vastly improved my experience on the computer. However there is one problem that programmers
+			run into, the characters they type are not nearly typed at the same rate as other users. Brackets and other special symbols
+			as well as numbers (if you use Vim or other keyboard based editors) are very common. Learning the symbols becomes a pain,
+			as custom tests are needed to get even close to the frequency of these characters to learn at a reasonable rate. Therefore
+			my solution (as is to most things) is to have a computer fix it. This however ended up being a very simple task as I was
+			able to finish it in a couple of hours. It is my most liked project on Github though if that is worth anything 😄. The idea is 
+			simple, take in an input in the form of a bias file, and output a stream of random characters according to that bias. Therefore
+			generating a test with high numbers and symbols as well as low frequency of characters becomes a trivial task no matter the length
+		<p>
+		<h3><a href="https://github.com/qwed81/tetris-os">Tetris OS</a></h3>
+		<p>
+			Inspired by a youtube video, I thought it would be a fun experiment to build an operating system that only plays tetris. However my
+			laziness made this much harder than it needed to be. I didn't write a memory allocator or drivers to interact with the graphics card
+			so it remained in its lowest state, only able to display basic characters in 80x25 area. Therefore my tetris game was made up by
+			formating block characters into shapes. The annoying part about writing it is the fact everything had to be fixed size as there was
+			not memory allocator resulting in code that is way more complicated than it needed to be.
+		</p>
+	</main>
+  </body>
+</html>
+

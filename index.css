@@ -1,0 +1,16 @@
+html {
+	font-size: 20px;
+}
+
+.header .title {
+	display: inline;
+}
+
+.header .nav {
+	display: flex;
+	float: right;
+}
+
+.header .nav * {
+	margin: 0.5rem;
+}
