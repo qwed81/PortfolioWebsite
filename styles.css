@@ -1,0 +1,22 @@
+html {
+	font-size: 1.5rem; 
+}
+
+.title {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.nav {
+	font-size: 1.5rem;
+	gap: 1.5rem;
+	display: flex;
+	justify-content: right;
+}
+
+body {
+	max-width: 50rem;
+	padding: 1rem;
+	margin: auto;
+}

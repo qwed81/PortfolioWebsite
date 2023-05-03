@@ -1,151 +1,135 @@
 <!DOCTYPE html>
-<html lang="en" style="font-size: 20px">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<!--link rel="stylesheet" href="./index.css" -->
-    <title>About Me</title>
-  </head>
-  <body>
-	<div>
-		<h1 style="display: inline">About Me</h1>
-		<nav style="display: flex; float: right;">
-			<style>
-				a.social-link {
-					margin: 0.5rem;
-				}
-			</style>
-			<a class="social-link" href="#">Website Source</a>
-			<a class="social-link" href="https://github.com/qwed81?tab=repositories">Github</a>
-			<a class="social-link" href="https://www.linkedin.com/in/joshua-cox-18834b244">LinkedIn</a>
-		</nav>
-	</div>
-    <main>
-		My name is Joshua Cox and I am currently studying computer science at
-		<a href="https://www.utdallas.edu/">The University of Texas at Dallas</a>.
-		Additionally I am self studying technologies ranging from Web Development to Operating Systems
-		and Compilers. I also work on and lead development of a startup, <a href="https://edworldo.com">EdWorldo</a>.
-		<h2>Skills</h2>
-		<p>
-			Some of my skills built up over years 6 of programming include: 
-			<ul>
-				<li>
-					Programming Languages
-					<ol>
-						<li>Rust</li>
-						<li>TypeScript / JavaScript</li>
-						<li>Scss / Css</li>
-						<li>Html</li>
-						<li>C#</li>
-						<li>Java</li>
-						<li>C (and limited C++)</li>
-					</ol>
-				</li>
-				<li>Data Structures and Algorithms</li>
-				<li>Sql and NoSql Databases</li>
-				<li>Operating Systems</li>
-				<li>Front End Web Development</li>
-					<ul>
-						<li>Vanilla Html / Css / Javascript</li>
-						<li>React</li>
-					</ul>
-				<li>
-					Back End Web Development
-					<ul>
-						<li>Asp.Net core Web Api</li>
-						<li>Asp.Net core MVC</li>
-						<li>Express</li>
-						<li>Cloud Deployment (with AWS)</li>
-						<li>Consuming 0Auth2 Apis</li>
-					</ul>
-				</li>
-				<li>
-					Programming Patterns
-					<ul>
-						<li>Object Oriented</li>
-						<li>Solid Priciples</li>
-						<li>Dependency Injection</li>
-						<li>RAII</li>
-						<li>Test Driven Development</li>
-						<li>Unit and Integration Testing</li>
-					</ul>
-				</li>
-				<li>Git and source control</li>
-			</ul>
-		<p>
-		<h2>Industry Experience</h2>
-		<h3><a href="https://edworldo.com">EdWorldo</a></h3>
-		<p>
-			In June of 2021, my friend came to me with the idea of a new way of using the internet. A very bold claim, and one that 
-			is hard to market, but that doesn't mean there is no potential in the idea. Pivoting to a tool for educators to use, we
-			spent months grinding away with makeshift solutions trying to get a MVP created. It did it's job but it was not production
-			ready. We decided to start over from scratch and create the application with react/typescript and Asp.Net core. Starting
-			from scratch forced me to learn about the best practices in web development from online forms. Recently I have been practiceing
-			communication and leadership as we have multiple people working for/with us to develop the application
-		</p>
-
-		<h2>Projects</h2>
-		<p>
-			I have always enjoyed programming, however in prior years my ambition to create something huge was gated
-			by my inability to judge both the size of the project as well as my own skill level. However, recently
-			I have got to the point where I can handle projects of larger size. The first step was to fix things that had
-			been bothering me for months. 
-		</p>
-		<h3><a href="https://github.com/qwed81/x11-key-remapper">X11 key remapper</a></h3>
-		<p>
-			After trying out Vim with Linux and i3, I fell in love with how customizable my setup was. The UX was completely
-			up to me, which naturally after experimenting I found the perfect keybindings for all applications I was using
-			consistently. Tmux, Vim, and even my window manager all had a modification key plus u, i, o, p, [, and ] as the way
-			to switch was was on the screen. Which combined very well for an experience that was not only uniform across applications,
-			but felt natural to use. The problem? Firefox has no setting for changing keybindings, and extensions that exist only work
-			while a webpage is loaded. After months of one application disrespecting my entirely keyboard focused workflow, I knew it had to change.
-			But what if there are applications in the future that have the same problem? I needed to go deeper and fix the root of the problem,
-			not just firefox. Creating an application to sit between the window manager and the application. A task not trivial with my setup.
-			Instead of changing the code for my window manager putting the burdon of maintinace of my fork on me, I decided to make a stand alone
-			application with Rust. This way I could call the direct C libraries provided by X11, as well have have the high level syntax and
-			memory saftey. While it seems like a small problem, the solution ended being very hacky as there is no easy way to do what I am trying
-			to do without proxying the entire keyboard. After spending around 40 hours hacking away, I created a working application
-			daily.
-		</p>
-		<h3><a href="https://github.com/qwed81/browser-boost">Browser Boost</a></h3>
-		<p>
-			After fixing my Firefox problem my setup was almost perfect, however there was one last hold out. None other than my best
-			friend Google. Every time I made a search my process was the same.
-			<ol>
-				<li>Mod + i opened my browser workspace</li>
-				<li>Ctrl + t opened a new tab and focued the search bar</li>
-				<li>Type in the search and press enter</li>
-				<li>Move the mouse and click on the first result</li>
-			</ol>
-			Normally not a big deal, but when touching the mouse is not common, it became super noticable. I was wasting minutes a day
-			just cliking on the first result. In the same spirit as the key remapper, a general solution is prefered. I created a new
-			project called Browser Boost, a Firefox extension available on the mozilla store. It's purpose? Allow me to create scripts
-			for commonly used websites. Right now the only one I have created a script for is google, but as I find myself frequenting other
-			sites I will add them. J and K to move up and down in results in the spirit of Vim, and "Space" to click on the highlighted link.
-			Very simple but very effective, the best kind of application. Finally, the limiting factor is the latency between me and the
-			Google servers.
-		</p>
-		<h3><a href="https://github.com/qwed81/typing-test-generator">Typing Test Generator</a></h3>
-		<p>
-			Learning how to touch type vastly improved my experience on the computer. However there is one problem that programmers
-			run into, the characters they type are not nearly typed at the same rate as other users. Brackets and other special symbols
-			as well as numbers (if you use Vim or other keyboard based editors) are very common. Learning the symbols becomes a pain,
-			as custom tests are needed to get even close to the frequency of these characters to learn at a reasonable rate. Therefore
-			my solution (as is to most things) is to have a computer fix it. This however ended up being a very simple task as I was
-			able to finish it in a couple of hours. It is my most liked project on Github though if that is worth anything 😄. The idea is 
-			simple, take in an input in the form of a bias file, and output a stream of random characters according to that bias. Therefore
-			generating a test with high numbers and symbols as well as low frequency of characters becomes a trivial task no matter the length
-		<p>
-		<h3><a href="https://github.com/qwed81/tetris-os">Tetris OS</a></h3>
-		<p>
-			Inspired by a youtube video, I thought it would be a fun experiment to build an operating system that only plays tetris. However my
-			laziness made this much harder than it needed to be. I didn't write a memory allocator or drivers to interact with the graphics card
-			so it remained in its lowest state, only able to display basic characters in 80x25 area. Therefore my tetris game was made up by
-			formating block characters into shapes. The annoying part about writing it is the fact everything had to be fixed size as there was
-			not memory allocator resulting in code that is way more complicated than it needed to be.
-		</p>
-	</main>
-  </body>
+<html lang="en">
+	 <head>
+		  <meta charset="UTF-8">
+		  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+		  <title>About Me</title>
+		  <link rel="stylesheet" href="/styles.css"/>
+	 </head>
+	 <body>
+		  <header>
+				<nav class="nav">
+					 <a href="/">About Me</a>
+					 <a href="/projects.html">Projects</a>
+					 <a href="https://github.com/qwed81">Github</a>
+					 <a href="/contact.html">Contact</a>
+					 <a href="https://github.com/qwed81/portfolio-website">Source</a>
+				</nav>
+		  </header>
+		  <main>
+				<div class="title">
+					 <h1>About Me</h1>
+					 <span>Last updated: 5/3/2023</span>
+				</div>
+				<section>
+					 <h2>High School</h2>
+					 <p>
+						  While growing up I have always had an interest in programming. 
+						  Trying to become a self taught programmer before the age of 15
+						  is almost impossible though. After taking a course in highschool
+						  I had the fundamentals required to start learning on my own through
+						  building projects and online resources. My first long term project
+						  was in 10th grade, and it involved building a game engine in Java. As
+						  a naive young coder, I thought using libraries was cheating, and therefore
+						  spent months figuring out all of the math from scratch without looking at
+						  resources. That took 3 months and all my focus, and quite
+						  frankly I'm suprised It was working using the basic Java graphcis API.
+						  However spending time on that project gave me the confidence that I could
+						  program many other projects. In fact a couple of weeks later, I decided to
+						  make a program that would allow dynamic macros, but this tim in C++.
+						  C++ however was beyond my skills at ahat time, and even
+						  though I accomplished what I wanted, C++ became enemy number 1.
+					 </p>
+					 <p>
+						  My junior year of high school I was curious of what field I wanted to join
+						  as a programmer, but I was set on software engineering as my career.
+						  After taking a video programming class, I realized
+						  I did not like working on games, but instead fell in love with the C#
+						  language. I found my self messing around making
+						  desktop apps with WPF. I used WPF to make a note taking app that used
+						  a trie to search keywords making finding notes almost instant. I also
+						  made a chess app that would allow me to play multiple chess.com games
+						  online at once using my own user interface. Even though I accomplished this
+						  by scraping their web data and running an instance of chromium
+						  with a C# wrapper in the background, it was good enough for me.
+						  Later that year I messed around with
+						  building mobile apps with Microsoft Xamarin. However the developer
+						  experience using Xamarin was misrable as Android emulation would not work on
+						  my computer so I gave up on that idea. 					 
+					 </p>
+					 <p>
+						  It is fitting that my last project of highschool was for the school.
+						  My Physics C class
+						  had a discord server and it become a meme that we needed inspirational 
+						  quotes in the morning to make it to class. My teacher asked if I could throw
+						  something together, and after a couple of days I got it working.
+						  I used the discord api to post messages from AI generated inspirational quotes
+						  in the chat every morning at 8:00 am. I wish
+						  I knew the importance of version control back then as now all of those
+						  projects are lost and as a result can not see the evidence progress I have 
+						  made.
+					 </p>
+				</section>
+				<section>
+					 <h2>University</h2>
+					 <p>
+						  In the summer after high school, my friend came to me with an idea for a
+						  startup that he wanted to make. It involved a browser extension that would
+						  allow people to post information about the websites they were visiting an others
+						  would be able to see the footnotes they left. It sounded like a good idea at the
+						  time but I didn't know what I was getting myself into. I spent the first few
+						  months learning the basics of web. HTML, Css, and JavaScript and made the first
+						  iteration. However we both did not like the design and decided to change it, a
+						  theme that became way too common until I quit. He continued on without me, and
+						  a lot of my work is still in production at 
+						  <a href="https://edworldo.com/">https://edworldo.com/</a>.
+					 </p>
+					 <p>
+						  At some point prior we changed
+						  the idea from a social media app to an educational app that allowed teachers to
+						  make lessons by placing questions on articles for students to answer. Never working
+						  on a project for more than 3 months prior to this, I made some really bad decesions
+						  for the technology used. I was sick of JavaScript as we had so many stupid bugs
+						  from type issues that I made the decesion to switch from express to Asp.Net core.
+						  While it is good that I learned multiple web frameworks, a lot of work had to be 
+						  done over, and this came with additional features we wanted added. I learned about
+						  typescript and react at the same time, so decided to use it as a front end library
+						  that would handle our UI that we served to users.
+					 </p>
+					 <p>
+						  Even though it did not result in a successful startup, I learned so much from the
+						  experience it was well worth the time.
+						  <ul>
+								<li>Version control and collaberation</li>
+								<li>Web technologies: JavaScript, Css, Html, Typescript</li>
+								<li>Frameworks: Express, React, Asp.net core</li>
+								<li>Managing a team of interns to get work done</li>
+						  </ul>
+					 </p>
+					 <p>
+						  In the summer going into softmore year my love for C# declined as I learned about
+						  the performance and stabilty of rust programs. Writing multi-threaded programs
+						  that never crashed that performed even at 80% of the speed of C programs was 
+						  something that my eyes were opened to. I spend hours learning about the language
+						  to really master it as I had found expected It would me an amazing tool in building
+						  most projects. Later that year I took a class on 
+						  programming in unix, and fell in love with the simplicity of C and the miracle
+						  it is still around 50 years after its invention. If I loved C and Rust, maybe
+						  the Linux community is onto something. Turns out they were! I installed Linux
+						  and now use nvim to do most tasks.
+					 </p>
+				</section>
+				<section>
+					 <h2>Open Source</h2>
+					 <p>
+						  In october I started working on open source projects of my own. None have
+						  caught on but they all fix a problem I had. I decided to make the code open
+						  if anyone has the same problems. A list of these projects can be seen in the
+						  <a href="/projects">projects</a> section.
+					 </p>
+				</section>
+		  </main>
+	 </body>
 </html>
 
