@@ -1,4 +1,5 @@
 use anyhow as ah;
+use html_parser::{Dom, Element, Node};
 use reqwest::header::{HeaderMap, HeaderValue};
 use reqwest::Client;
 use std::collections::HashMap;
@@ -20,6 +21,7 @@ impl GitHubApi {
         }
     }
 
+    // gets the rendered html from file on github specified by path starting with a /
     pub async fn get_html_from_markdown(&self, path_to_md: String) -> ah::Result<String> {
         if path_to_md.starts_with("/") == false {
             panic!("github path expected to start with slash");
@@ -51,6 +53,8 @@ impl GitHubApi {
     }
 }
 
+// takes an html template with comments as the key to replace
+// for example <!--PROJECT--> would be replaced from value { "PROJECT", "<h1>project</h1>" }
 pub fn render_to_template(html_template: &str, var_replace: HashMap<&str, &str>) -> String {
     let mut lookup = &html_template[..];
     let mut output = String::new();
@@ -78,4 +82,46 @@ pub fn render_to_template(html_template: &str, var_replace: HashMap<&str, &str>)
     output.push_str(&lookup[..]);
 
     output
+}
+
+fn get_h1_title_recur(node: &Element) -> Option<String> {
+    for elem in &node.children {
+        if let Node::Element(e) = elem {
+            // if it is not an h1 then check all of it's children to find
+            // the h1
+            if &e.name != "h1" {
+                let res = get_h1_title_recur(&e);
+                if res.is_some() {
+                    return res;
+                }
+                continue;
+            }
+
+            // if it is an h1 then go through its children to find
+            // it's text
+            for elem in &e.children {
+                if let Node::Text(text) = elem {
+                    return Some(text.to_owned());
+                }
+            }
+        }
+    }
+
+    None
+}
+
+// gets the value in the <h1> first title if there is one without any
+// other inner elements
+pub fn get_h1_title(html: &str) -> Option<String> {
+    let dom = Dom::parse(html).ok()?;
+    for elem in dom.children {
+        if let Node::Element(e) = elem {
+            let res = get_h1_title_recur(&e);
+            if res.is_some() {
+                return res;
+            }
+        }
+    }
+
+    None
 }
