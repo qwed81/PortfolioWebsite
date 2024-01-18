@@ -1,0 +1,103 @@
+--?title
+Building the Perfect Screenshot Software
+
+--?p
+<a href="https://github.com/qwed81/min-ss">Source</a>
+
+--?title
+Introduction
+
+--?p
+If you are like me, you sit at computer for a large portion of the day.
+Computers have become so fast and sofisticated that there is thousands
+of ways and pieces of software to document, and share moments on your
+computer. Whether that is something interesting you see, or simply showing
+off progress on a project you are working on, the simplest solution is often
+to take a screenshot. I take several screenshots a day and share
+them on many different platforms. There is a lot of great screenshot
+software, but I tried always had a fatal flaw for my workflow. Therefore, to get perfect
+screenshot software I needed to build it myself.
+
+--?title
+Features
+
+--?p
+It was very important to me to have a program that opens instantly. Most
+screenshot software I used previously was packed full of features. Picture
+preview, clipping, copy to keyboard. Features that are nice to have, but
+not when you miss an important moment because the program took 2 seconds
+to launch. Additionally, I needed to freeze the screen when
+taking a partial screen picture. This is because to take a slice of the screen
+as the picture, the mouse has to be used to select the part that is desired. 
+Many effects occur with mouse hover, so a program that does not freeze the
+screen will not have the ability to take partial screen pictures of an
+effect that requires mouse hover. The final feature is flexibility and
+extensibility. Once I have my program written it needs to integrate
+well with my workflow. It also needs to be used in all of my screenshot
+or there is no point to building custom software.
+
+--?title
+Implementation
+
+--?p
+I use a linux system using X11. Because the code for X11 is already running,
+the way to get the fastest launch speeds is to use a statically compiled 
+language, and to reduce the size of the binary. Finally it should dynamically link
+to all dependencies that are already running. For this reason I chose to use the C
+language as it will be the easiest language to work with the X11 libraries
+that are also written in C. To fill the requirement of flexibilty I chose
+to build a program that fits with the "Unix way". That is a program that takes
+the PNG data from the screenshot and outputs it to STDOUT, as then it can be
+used in scripts as perfect piece for any job. Finally, I have to add
+a command line argument that takes a picture of the entire screen so I can use
+tool in the rare situation that I need a picture of the entire screen rather
+than a small segment.
+
+--?title
+Usage
+
+--?p
+The most simple usage of the min-ss is saving to take a screenshot
+and save to a file.
+--?code
+$ min-ss > mypng.png
+--?p
+If you run this bash on an X11 system, you will notice it launches
+instantaneously then freezes the screen. If you click and drag the mouse it will
+create a rectangle in which you can select
+the part of the screenshot that will be saved to mypng.png
+
+--?code
+$ min-ss --full > mypng.png
+--?p
+This will save the entire screen and save it to the file instead. As you can image making
+a program integrate perfectly in the shell has amazing benifits. You are not required
+to save the image, it can also automatically be added to the clipboard.
+
+--?code
+min-ss | xclip -i -sel clip -t image/png
+--?p
+And if you are using a window manager that let's you map scripts to button press, the 
+possibilities are endless. Here is the configuration I use with I3.
+--?code
+bindsym --whole-window button9 exec --no-startup-id \
+min-ss | xclip -i -sel clip -t image/png
+
+bindsym $mod+s exec --no-startup-id \
+min-ss | xclip -i -sel clip -t image/png
+
+bindsym $mod+Shift+s exec --no-startup-id \
+min-ss --full | xclip -i -sel clip -t image/png
+--?p
+At the click of a button on my mouse I have an frozen screen and a clipping cursor in under 10ms.
+When I make my selection it unfreezes the screen at which point I can paste it into any
+program, most notably websites.
+
+
+
+
+
+
+
+
+

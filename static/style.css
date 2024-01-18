@@ -1,0 +1,100 @@
+* {
+	margin: 0px;
+	inset: 0px;
+}
+
+pre {
+	white-space: pre-wrap;
+}
+
+html {
+	font-size: 22px;
+}
+
+:root {
+	--body-color: #0B132B;
+	--main-color: #1C2541;
+	--code-background: #3A506B;
+	--font-color: #DFDFDF;
+	--code-color: #FFFFFF;
+	--font: font-family: "Roboto", sans-serif;
+}
+
+nav {
+	display: flex;
+	justify-content: right;
+	font-size: 1.25rem;
+	line-height: 1.75rem;
+	gap: 1.5rem;
+	background-color: var(--main-color);
+	border-bottom: 1px solid var(--code-background);
+	padding-right: 1rem;
+	margin-bottom: 1rem;
+}
+
+li {
+	color: var(--font-color);
+}
+
+
+a {
+	color: var(--font-color);
+}
+
+h1 {
+	font-size: 1.875rem;
+	line-height: 2rem;
+	margin-bottom: 1rem;
+	color: var(--code-color);
+}
+
+h2 {
+	font-size: 1.25rem;
+	line-height: 1.75rem;
+	color: var(--code-color);
+}
+
+body {
+	background-color: var(--body-color);
+	font-family: var(--font);
+}
+
+main {
+	background-color: var(--main-color);
+	max-width: 40rem;
+	margin: auto;
+	padding: 2rem;
+	padding-top: 0rem;
+	border-left: 1px solid var(--code-background);
+	border-right: 1px solid var(--code-background);
+}
+
+.p {
+	margin-bottom: 1rem;
+	font-size: 1rem;
+	line-height: 1.5rem;
+	color: var(--font-color);
+}
+
+.code-container {
+	margin-bottom: 1rem;
+	font-size: 1rem;
+	line-height: 1.5rem;
+	background-color: var(--code-background);
+	width: 100%;
+	display: block;
+	border: 1px solid var(--body-color);
+	color: var(--code-color);
+	border-radius: 1rem 1rem;
+}
+
+.code-container > * {
+	margin: 0.5rem;
+}
+
+.img {
+	max-width: 100%;
+	height: auto;
+	margin: auto;
+}
+

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title><%=title%></title>
+		<link rel="stylesheet" href="./static/style.css">
+		<link rel="icon" href="/static/favicon.png" type="image/png">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:ital" rel="stylesheet">
+	</head>
+	<body>
+		<main>
+			<nav>
+				<a href="/">Article List</a>
+				<a href="/contact">Contact</a>
+			</nav>
+			<div>
+				<h1><%=title%></h1>
+				<%for(let section of sections) { %>
+					<%if (section.type == 'title') { %>
+						<h2><%=section.data%></h2>
+					<%}%>
+					<%if (section.type == 'p') { %>
+						<p class="p"><%-section.data%></p>
+					<%}%>
+					<%if (section.type == 'code') { %>
+						<code class="code-container">
+							<pre><%=section.data%></pre>
+						</code>
+					<% } %>
+
+					<%if (section.type == 'img') { %>
+						<div class="img-container">
+							<img class="img" src="<%=section.data%>"/>
+						</div>
+					<%}%>
+				<%}%>
+			</div>
+		</main>
+	</body>
+</html>
+

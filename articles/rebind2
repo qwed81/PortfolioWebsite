@@ -1,0 +1,88 @@
+--?title
+Fixing Firefox by Hacking
+--?p
+<a href="https://github.com/qwed81/rebind2">Source</a>
+
+--?title
+Problem
+
+--?p
+Have you ever been using a product and it is perfect except for that
+one problem? Every time a new version comes out, you look at the changes 
+to see if the feature you want was implemented? This was me after using Firefox for a
+few months. Firefox has settings for almost everything you could imagine,
+but lacks the setting to change many keyboard shortcuts.
+
+--?title
+Solution
+
+--?p
+Applications with a UI have some sort of event loop. What if I could intercept
+those events and create my own? Keyboard events could be scanned,
+and if they meet the criteria of an event that needed to be mapped,
+the keycode and the modifier could be changed before it was proccessed.
+This effectively changed which key the program thinks was pressed.
+
+--?p
+Thankfully Linux has an easy way to do this. If an application dynamically loads
+its libraries, they can be changed by a single environment variable. For example:
+
+--?code
+LD_PRELOAD=/home/ubuntu/malloc.so firefox
+--?p
+With a custom malloc.so file, Firefox would use all of the functions
+provided by /home/user/malloc.so rather than the original functions the
+dynamic linker would find. Therefore, all that is left to do is supply our
+own events and Firefox will be none the wiser.
+
+--?code
+KeyMap lookup_table[STATE_LEN][KEY_LEN] = { 0 };
+
+static int (*real_XNextEvent)(Display* display, XEvent* event_return) = NULL;
+
+int XNextEvent(Display* display, XEvent* event_return) {
+	// call the actual function
+	int result = real_XNextEvent(display, event_return);
+
+	// if it is not one of these events, it does not need to be processed
+	if (event_return->type != KeyPress && event_return->type != KeyRelease) {
+		return result;
+	}
+
+	// process the return value and change if it needs to be
+	XKeyEvent* ev = (XKeyEvent*)event_return;
+
+	// it is out of bounds of our array, return as if nothing
+	// happened
+	if (ev->state >= STATE_LEN || ev->keycode >= KEY_LEN) {
+		return result;
+	}
+
+	unsigned int old_key = ev->keycode;
+	unsigned int old_state = ev->state;
+
+	KeyMap mapping = lookup_table[ev->state][ev->keycode];
+	// it is not mapped so don't do anything
+	if (mapping.mapped == false) {
+		return result;
+	}
+
+	ev->keycode = mapping.to_keycode;
+	ev->state = mapping.to_state;
+
+	return result;
+}
+
+--?p
+After initializing the lookup table and the original function, this
+is the entire code. In a loop, firefox will be polling for the next
+event. Change that function to our own that swaps out the event
+when it needs to and our goal is accomplished. The only thing left
+to do is populate the lookup table with desired key rebindings, and
+tell the dynamic linker to use our function instead of the original
+XNextEvent.
+
+--?code
+LD_PRELOAD=/home/ubuntu/rebind_preload.so firefox
+--?p
+Check out my GitHub for more specifics!

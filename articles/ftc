@@ -1,0 +1,189 @@
+--?title
+Joke to Genius: The Unexpected Evolution of a Project
+
+--?p
+<a href="https://github.com/qwed81/ftc-lol">Source</a>
+
+--?title
+Introduction
+--?p
+If you have been programming for some time, you probably understand the workflow.
+A new requirement is given to you, and you have to implement in the best way possible.
+Of course there is no true best way, but the farther the distance from the simplest
+solution, the harder the code becomes to understand. Most super creative solutions
+are worse than their intuitive counter part, both in terms of readability and maintainability.
+However, the joy of programming comes from these creative solutions. There is nothing fun about
+solving the same puzzle 100 times. In the same vein, it is boring to
+solve a puzzle that doesn't require any struggle. Solving a hard problem that requires
+hours of thought and research is what many others and I love about programming.
+
+--?p
+When I was learning to code, every problem was unique. Finding the minimum of an array
+took me minutes to complete. However, after 7 years most problems have become
+repetitive and easy. On the contrary, now I can see the beauty in complex problems
+solved with a simple solution.
+
+--?p
+One day I had an idea for a joke I wanted to play on my friends. What if I created a
+program that could control the assets for the game "League of Legends" on their
+computer? Whenever they played I could swap out the model of a character
+and record to their reactions as they were confused. After a few days of working
+I realized this was going to be a very challenging project. Without requirements or a deadline
+I was excited I had a chance to test my skills.
+
+--?title
+Early Challenges
+--?p
+The solution seems simple at first. Make a program that replaces the game files.
+However, the game has had a history of hackers. They have built many anti-cheat
+mechanisms over the years. The project quickly became less about designing
+a file sharing program. It turned into a project about overcoming their anti-cheat
+by finding solutions they either didn't think about or could not block.
+
+--?title
+Hooking ReadFile
+
+--?p
+The first thing League of Legends does on launch is load all of the needed game assets into
+ram. This is the industry standard for games. However, League of Legends
+performs file validation on loading. Therefore, before changing the giles have to wait until the game launches.
+This comes with its own set of problems. What happens if the disk speed is slow? Or a race condition
+happens in the file system that is out of my control? The solution I derived that overcomes both of these
+problems is to hijack the system call for reading data from file and return modified data. It is worth
+mentioning that I could swap the handle returned from an CreateFileA (open file) call. This does
+work and reduces the complexity, but the files can be up to 2GB large. Therefore the transfer of files
+and the amount that needs to be saved to disk is much larger than I was willing to tolerate.
+
+--?p
+The basic algorithm works like this:
+<ol>
+	<li>League of Legends calls ReadFile</li>
+	<li>I intercept the ReadFile call and read from a different location in the file or from memory</li>
+	<li>I write the data I want to the buffer and return success from ReadFile</li>
+</ol>
+--?p
+
+--?p
+To be more specific, I was not overriding the system call. I hooked into the User32.dll
+function ReadFile that is called by the C++ std library on Windows.
+Therefore every time that function was called, my function would be ran instead.
+
+--?title
+Things Get Complicated
+
+--?p
+However before that, I needed the ability to run my code in their process.
+Writing a program in C or C++ that compiles to a DLL, and then injecting that DLL into the game process
+is a common way of running shell code. However, to prevent cheating, the game blocks DLL files
+from being loaded via LoadLibraryA. It also blocks all forms of CreateRemoteThread.
+I thought it would be an impossible to continue, so I decided to start scrolling through windows
+documentation to find any other alternative functions I could use.
+I realized the developers either had an oversight, or needed to use a function for themselves. 
+They did not block calls the debugger functions.
+
+--?p
+In the functions windows provides for debuggers, their is a function called 
+SetThreadContext. It seems innocent enough because all it does is allow the user
+to set the contents of the registers on a thread. However, EIP (32 bit instruction pointer)
+can be modified by this function. This means that we can effectively jump
+to an arbitrary point in memory of the process. Additionally the game does not block calls to
+WriteProcessMemory and VirtualAllocEx. I assume this is because they use them when loading the
+game into memory from its encrypted state on the disk, as it can not be run by normal means.
+Because the game also did not block WriteProcessMemory and VirtualAllocEx,
+it is possible to allocate some memory, write in custom instructions,
+and then change EIP to the address of the new instructions.
+
+--?p
+Now that it was possible to execute arbitrary code within their process, there needed
+to be a way to get restore the code that was running before. A thread was effectively
+hijacked, and the registers needed to be used for the shell code. Therefore, whatever registers
+changed must be restored to their exact state. Then a jump to the previous value of EIP will make
+it so the thread works as if EIP was never changed to begin with.
+The problem is in the x86 instruction set there is no way to jump to a location stored in memory without
+using a register. Therefore registers need to be used in the jump. Registers could not be used though,
+because they had to restored thread could be hijacked at any point in its operations.
+Therefore the only solution left: self modifying code.
+
+--?p
+There is an instruction in the x86-32 bit instruction set that is a jump to relative position
+constant. This means that the jump location is encoded in the instruction, so no registers
+are in use when this instruction executed. This was perfect, because the algorithm
+could first write the proper return address to this instruction, then set the registers
+back to their original state. Finally, the instruction with the relative position encoded would be
+executed with the state perfectly intact.
+
+--?p
+Now that it is possible to execute code within their process, the shell code can be written.
+It is a lot simpler to write the shell code in assembly as it is hacky by nature. However
+the ReadFile algorithm is not easy to implement, and especially not in assembly.
+The algorithm becomes especially complicated when you take into account the format
+of the game files. Additionally, multiple complex data structues need to be used when
+doing lookup. The game can ask for a segment of data it wants to load, but only part of
+that segment should be overwritten, and the other part still exists in game files. Doing
+all of this in assembly would be a massive task. Especially when the game planned on switching
+from x86 to x64 instruction set. I would have to redo the thousands of lines of assembly.
+Therefore I decided it would be easier to write the shell code in C.
+
+--?p
+Now that it is possible to execute code within their process, it's time to start writing
+some C code. The problem is there is no standardized way of loading this code as DLL
+injection was blocked. That means it has to be done manually. By compiling the C code
+to ELF (Linux file format), all of the information needed for loading will be produced by
+clang. Additionally, there are many Rust ELF file parsing libraries to get
+access to the segments and memory positions of the files. Therefore 90% of the work was done
+for me and all I had to do was tweak compiler options and write the segments into the game via
+WriteProcessMemory. It is important to compile without the standard library as Linux system calls
+don't do anything on windows and would simply crash the program. Additionally the code must be compiled
+as position independent as it needs to be loaded to an arbitrary memory location. The last constraint
+is it must be complied as a static library file. This is because the C code must be called by assembly
+because of the heavy constraints on what registers can be modified, and the strict cleanup logic that must
+be run after the C code exits. Finally, it is important that when the code is loaded into the process all of
+the segments are loaded in memory with the same relative positions. For example if segment one is located
+at 0x1000 and segment two is located at 0x2000. We must load these segments exactly
+0x1000 bytes away in memory or the code will not work.
+
+--?p
+Bootstraping this C code from ASM suprisingly was not that challenging. The first step was to ensure
+the main function had the correct calling convention. It has to restore all of the registers it
+used, as my assembly only restored a few. Additionally, it was necessary to 
+pass the location of Kernel32.dll for the C code to use because it needed access to system calls
+and the location of User32.dll functions to be hooked. Because there was guides online explaining
+how to locate Kernel32.dll from within shell code, it only took a few hours. 
+Linking the C and ASM was made possible by using both clang and nasm to compile to static library files. 
+Then by using the ELF file format the loader could locate the position of functions are variables via querying by name.
+After allocating another stack to use (because of red-zone optimization) the code was running
+perfectly.
+
+--?p
+Now it was time to actually implement the ReadFile swapping. I decided to use
+a sorted list of segments that were instead of a HashMap. This allowed for O(logn)
+lookup time of segment ranges that were close but not exact. Then if I wanted to overwrite part
+of a file, I could either let the ReadFile perform its default behaviour,
+or I could do a simple memory copy to the ReadFile buffer and return back success. The game
+now thought that the data was coming from the correct file, and files on disk did not need
+to be modified at all.
+
+--?p
+Finally, the file verification needed to be turned off. Luckily
+the shell code was already working so it not a monumental task change from within the process.
+The plan is to have the "VerifyFile" (I don't know the name as the compiled version was just a memory address)
+return back true always. It was challenging to hook the actual function itself due to memory
+protection on the game's instrucitons. Therefore, the best option is to hook a function that it calls.
+Then have the new function look back in the stack for the return address. We change the value of the
+return address (return oriented programming) to our own code. All that is left to do is change EAX
+(the return register) to 1 and then jump back to the original return address. Now the "VerifyFile"
+function effictively always returns the value 1 (true), of the data it verified.
+
+--?p
+At last, the final step is to implement the CLI and a web server to share segments so I can
+control what mods are loaded. Using Axum as the web framework the server client architecture
+was working perfectly and would work on every windows computer!
+
+--?title
+Conclusion
+
+--?p
+This was my favorite project I ever worked on. There was an interesting problem to solve
+at every corner, and I am happy about how the end result turned out.
+I really hope I get to work on something at this complexity level in the future
+for a problem that matters for pushing the status quo, rather than for a simple joke!
